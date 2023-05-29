@@ -2,9 +2,14 @@ package br.com.elgin.plugin_flutter_elgin;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 
 import androidx.annotation.NonNull;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Map;
 
@@ -52,6 +57,47 @@ public class PluginFlutterElginPlugin implements FlutterPlugin, MethodCallHandle
     }
   }
 
+  private void startIntent(Map<String, Object> argumentsIntent) {
+    final String activityFilterPath = (String) argumentsIntent.get("activityFilterPath");
+    final String intentPayload = (String) argumentsIntent.get("intentPayload");
+
+    final Intent intent = new Intent(activityFilterPath);
+
+    intent.putExtra("comando", intentPayload);
+
+    // verify that the intent will resolve to an activity
+    if (intent.resolveActivity(activity.getPackageManager()) == null) {
+      methodChannelResult.error("ActivityNotFound", "No Activity to resolve", null);
+      return;
+    }
+
+    activity.startActivityForResult(intent, IDH_INTENTS_REQUESTCODE);
+  }
+
+  @Override
+  public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
+
+    if (resultCode == Activity.RESULT_OK && requestCode == IDH_INTENTS_REQUESTCODE) {
+      try{
+        if (data == null) return false;
+        final String ret = data.getStringExtra("retorno");
+        JSONArray jsonArrayReturn = new JSONArray(ret);
+        // just to check the format of the json returned by idh
+        JSONObject jsonObjectReturn = jsonArrayReturn.getJSONObject(0);
+        
+        methodChannelResult.success(jsonArrayReturn.toString());
+        return true;
+      } catch (JSONException jsonException) {
+        jsonException.printStackTrace();
+        methodChannelResult.error("JSON_FORMAT_ERROR", "The JSON format is incorrect or DigitalHub App is not installed", null);
+        return false;
+      }
+
+    }
+    methodChannelResult.error("NO_RETURN", "No return of function intent", null);
+    return false;
+  }
+
   @Override
   public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
     channel.setMethodCallHandler(null);
@@ -64,6 +110,7 @@ public class PluginFlutterElginPlugin implements FlutterPlugin, MethodCallHandle
   public void onAttachedToActivity(@NonNull ActivityPluginBinding binding) {
     // plugin is now attached to an Activity
     this.activity = binding.getActivity();
+    binding.addActivityResultListener(this);
 
   }
 
