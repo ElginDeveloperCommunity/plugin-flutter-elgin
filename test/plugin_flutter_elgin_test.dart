@@ -9,44 +9,6 @@ class MockPluginFlutterElginPlatform
     implements PluginFlutterElginPlatform {
   @override
   Future<String?> getPlatformVersion() => Future.value('42');
-
-  @override
-  Future<String> abreConexaoImpressora(
-      int tipo, String modelo, String conexao, int parametro) {
-    // TODO: implement abreConexaoImpressora
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<String> avancaPapel(int linhas) {
-    // TODO: implement avancaPapel
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<String> corte(int linhas) {
-    // TODO: implement corte
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<String> fechaConexaoImpressora() {
-    // TODO: implement fechaConexaoImpressora
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<String> impressaoTexto(
-      String texto, int alinhamento, int fonte, int tamanhoFonte) {
-    // TODO: implement impressaoTexto
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<String> imprimeXMLSAT(String data, int param) {
-    // TODO: implement imprimeXMLSAT
-    throw UnimplementedError();
-  }
 }
 
 void main() {
