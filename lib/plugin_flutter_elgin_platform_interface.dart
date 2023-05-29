@@ -8,7 +8,8 @@ abstract class PluginFlutterElginPlatform extends PlatformInterface {
 
   static final Object _token = Object();
 
-  static PluginFlutterElginPlatform _instance = MethodChannelPluginFlutterElgin();
+  static PluginFlutterElginPlatform _instance =
+      MethodChannelPluginFlutterElgin();
 
   /// The default instance of [PluginFlutterElginPlatform] to use.
   ///
