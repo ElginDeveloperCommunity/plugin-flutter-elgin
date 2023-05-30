@@ -1,15 +1,24 @@
-# plugin_flutter_elgin
+# Plugin Flutter Elgin Android
 
-A new Flutter plugin project.
+Um plugin para fazer comunicação com o IDH da Elgin e usar os vários recursos disponibilizados nos devices Elgin.
+
+# Features
+
+Uso das principais funções para Impressora.
+* Impressão de Texto
+* Impressão de XML de SAT
 
 ## Getting Started
 
-This project is a starting point for a Flutter
-[plug-in package](https://flutter.dev/developing-packages/),
-a specialized package that includes platform-specific implementation code for
-Android and/or iOS.
+Adicione o Plugin ao seu projeto.
 
-For help getting started with Flutter development, view the
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Importe o plugin no seu projeto.
+```dart
+import 'package:plugin_flutter_elgin/plugin_flutter_elgin.dart';
+```
 
+Instancie a classe e comece a usar as chamadas.
+```dart
+class _MyAppState extends State<MyApp> {
+  final _pluginFlutterElginPlugin = PluginFlutterElgin();
+```
