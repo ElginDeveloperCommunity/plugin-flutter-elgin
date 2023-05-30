@@ -8,4 +8,6 @@ on:
 # publish using the reusable workflow from dart-lang
 jobs:
   publish:
+    permissions:
+      id-token: write # required for authentication using OIDC
     uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
