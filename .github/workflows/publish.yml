@@ -26,7 +26,9 @@ jobs:
       - name: Format code
         run: dart format --fix .
       - name: Prepare pub credentials
-        run: echo '${{ secrets.CREDENTIAL_JSON }}' > "$XDG_CONFIG_HOME/dart/pub-credentials.json"
+        run: |
+          mkdir -p $XDG_CONFIG_HOME/dart && \
+          echo '${{ secrets.CREDENTIAL_JSON }}' > "$XDG_CONFIG_HOME/dart/pub-credentials.json"
       - name: Check Publish Warnings
         run: dart pub publish --dry-run
       - name: Publish
