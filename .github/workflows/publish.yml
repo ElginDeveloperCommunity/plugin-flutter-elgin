@@ -8,24 +8,32 @@ on:
 # publish using the reusable workflow from dart-lang
 jobs:
   publish:
-    permissions:
-      id-token: write # required for authentication using OIDC
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-lastest
     steps:
-      - uses: actions/checkout@v3
-      - name: Install Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '3.3.3'
-      - name: Install dependencies
-        run: flutter pub get
-      - name: Analyze
-        run: flutter analyze
-      # - name: Run Tests
-      #   run: flutter test
-      - name: Format code
-        run: dart format --fix .
-      - name: Check Publish Warnings
-        run: dart pub publish --dry-run
+      - name: Checkout
+        uses: actions/checkout@v1
       - name: Publish
-        run: dart pub publish --force
+        uses: sakebook/actions-flutter-pub-publisher!v1.4.1
+        with:
+          credential: ${{ secrets.CREDENTIAL_JSON }}
+    # permissions:
+    #   id-token: write # required for authentication using OIDC
+    # runs-on: ubuntu-latest
+    # steps:
+    #   - uses: actions/checkout@v3
+    #   - name: Install Flutter
+    #     uses: subosito/flutter-action@v2
+    #     with:
+    #       flutter-version: '3.3.3'
+    #   - name: Install dependencies
+    #     run: flutter pub get
+    #   - name: Analyze
+    #     run: flutter analyze
+    #   # - name: Run Tests
+    #   #   run: flutter test
+    #   - name: Format code
+    #     run: dart format --fix .
+    #   - name: Check Publish Warnings
+    #     run: dart pub publish --dry-run
+    #   - name: Publish
+    #     run: dart pub publish --force
