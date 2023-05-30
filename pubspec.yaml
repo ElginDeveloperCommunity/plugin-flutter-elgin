@@ -1,6 +1,6 @@
 name: plugin_flutter_elgin
-description: Plugin to use Elgin devices on Android.
-version: 1.0.2
+description: Plugin to use Android Elgin devices functionalities like printer. Other functionalities will be added
+version: 1.0.3
 homepage: https://www.elgin.com.br/automacao
 
 environment:
