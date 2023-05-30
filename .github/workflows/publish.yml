@@ -17,6 +17,8 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.7.12'
+      - name: Debug
+        run: flutter pub get --directory ./example
       - name: Install dependencies
         run: flutter pub get
       - name: Analyze
