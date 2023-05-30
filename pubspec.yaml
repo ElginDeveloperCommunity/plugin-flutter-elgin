@@ -1,6 +1,6 @@
 name: plugin_flutter_elgin
 description: Plugin to use Elgin devices on Android.
-version: 1.0.0
+version: 1.0.1
 homepage: https://www.elgin.com.br/automacao
 
 environment:
