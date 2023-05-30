@@ -10,4 +10,11 @@ jobs:
   publish:
     permissions:
       id-token: write # required for authentication using OIDC
-    uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dart-lang/setup-dart@v1
+      - name: Install dependencies
+        run: flutter pub get
+      - name: Publish
+        run: flutter pub publish --force
