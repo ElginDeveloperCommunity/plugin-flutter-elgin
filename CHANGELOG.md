@@ -1,3 +1,6 @@
-## 0.0.1
+## 1.0.0
 
-* TODO: Describe initial release.
+- Primeira versão
+- [x] Comunicação via intent com o IDH
+- [x] Comunicação com o android
+- [x] Implementação das principais funções da Impressora
