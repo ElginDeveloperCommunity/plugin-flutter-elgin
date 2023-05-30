@@ -1,7 +1,7 @@
 name: plugin_flutter_elgin
 description: A new Flutter plugin project.
 version: 1.0.0
-homepage: elgin.com.br/automacao
+homepage: https://www.elgin.com.br/automacao
 
 environment:
   sdk: '>=3.0.2 <4.0.0'
