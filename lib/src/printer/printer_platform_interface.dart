@@ -1,5 +1,5 @@
-import 'package:plugin_flutter_elgin/src/printer_method_channel.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
+import 'printer_method_channel.dart';
 
 abstract class PrinterPlatform extends PlatformInterface {
   PrinterPlatform() : super(token: _token);
@@ -15,31 +15,31 @@ abstract class PrinterPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  Future<String> abreConexaoImpressora(
+  Future<int> abreConexaoImpressora(
       int tipo, String modelo, String conexao, int parametro) {
     throw UnimplementedError(
         'abreConexaoImpressora() has not been implemented.');
   }
 
-  Future<String> fechaConexaoImpressora() {
+  Future<int> fechaConexaoImpressora() {
     throw UnimplementedError(
         'fechaConexaoImpressora() has not been implemented.');
   }
 
-  Future<String> avancaPapel(int linhas) {
+  Future<int> avancaPapel(int linhas) {
     throw UnimplementedError('avancaPapel() has not been implemented.');
   }
 
-  Future<String> corte(int linhas) {
+  Future<int> corte(int linhas) {
     throw UnimplementedError('corte() has not been implemented.');
   }
 
-  Future<String> impressaoTexto(
+  Future<int> impressaoTexto(
       String texto, int alinhamento, int fonte, int tamanhoFonte) {
     throw UnimplementedError('impressaoTexto() has not been implemented.');
   }
 
-  Future<String> imprimeXMLSAT(String data, int param) {
+  Future<int> imprimeXMLSAT(String data, int param) {
     throw UnimplementedError('imprimeXMLSAT() has not been implemented.');
   }
 }

@@ -1,5 +1,4 @@
-import 'package:plugin_flutter_elgin/src/printer.dart';
-
+import 'package:plugin_flutter_elgin/src/printer/printer.dart';
 import 'plugin_flutter_elgin_platform_interface.dart';
 
 class PluginFlutterElgin {

@@ -48,7 +48,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> abrirConexao() async {
-    String retorno;
+    int retorno;
     // try {
     retorno = await _pluginFlutterElginPlugin.printer
         .abreConexaoImpressora(5, '', '', 0);
@@ -64,69 +64,69 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> fechaConexao() async {
-    String retorno;
+    int retorno;
     try {
       retorno = await _pluginFlutterElginPlugin.printer.fechaConexao();
     } catch (e) {
-      retorno = '-2222';
+      retorno = -2222;
     }
 
     if (!mounted) return;
 
     setState(() {
-      _retorno = retorno;
+      _retorno = retorno.toString();
     });
   }
 
   Future<void> avancaPapel() async {
-    String retorno;
+    int retorno;
     try {
       retorno = await _pluginFlutterElginPlugin.printer.avancaPapel(5);
     } catch (e) {
-      retorno = '-2222';
+      retorno = -2222;
     }
 
     if (!mounted) return;
 
     setState(() {
-      _retorno = retorno;
+      _retorno = retorno.toString();
     });
   }
 
   Future<void> corte() async {
-    String retorno;
+    int retorno;
     try {
       retorno = await _pluginFlutterElginPlugin.printer.corte(2);
     } catch (e) {
-      retorno = '-2222';
+      retorno = -2222;
     }
 
     if (!mounted) return;
 
     setState(() {
-      _retorno = retorno;
+      _retorno = retorno.toString();
     });
   }
 
   Future<void> imprimeTexto() async {
-    String retorno;
+    int retorno;
     try {
       retorno = await _pluginFlutterElginPlugin.printer
           .impressaoTexto('Teste Flutter Plugin', 0, 0, 2);
     } catch (e) {
-      retorno = '-2222';
+      retorno = -2222;
       rethrow;
     }
 
     if (!mounted) return;
 
     setState(() {
-      _retorno = retorno;
+      _retorno = retorno.toString();
     });
   }
 
   Future<void> impressaoXMLSAT() async {
-    String retorno;
+    int retorno;
     try {
       String xmlSat =
           '<?xml version="1.0"?><CFe><infCFe versaoDadosEnt="0.07"><ide><CNPJ>08427847000169</CNPJ><signAC>SGR-SAT SISTEMA DE GESTAO E RETAGUARDA DO SAT</signAC><numeroCaixa>001</numeroCaixa></ide><emit><CNPJ>61099008000141</CNPJ><IE>111111111111</IE><IM>12345</IM><cRegTribISSQN>3</cRegTribISSQN><indRatISSQN>N</indRatISSQN></emit><dest/><det nItem="1"><prod><cProd>116</cProd><cEAN>9990000001163</cEAN><xProd>Cascao</xProd><CFOP>5405</CFOP><uCom>UN</uCom><qCom>1.0000</qCom><vUnCom>4.00</vUnCom><indRegra>A</indRegra></prod><imposto><ICMS><ICMSSN102><Orig>0</Orig><CSOSN>500</CSOSN></ICMSSN102></ICMS><PIS><PISSN><CST>49</CST></PISSN></PIS><COFINS><COFINSSN><CST>49</CST></COFINSSN></COFINS></imposto></det><total/><pgto><MP><cMP>01</cMP><vMP>4.00</vMP></MP></pgto></infCFe></CFe>';
@@ -134,14 +134,14 @@ class _MyAppState extends State<MyApp> {
       retorno =
           await _pluginFlutterElginPlugin.printer.imprimeXMLSAT(xmlSat, 0);
     } catch (e) {
-      retorno = '-2222';
+      retorno = -2222;
       rethrow;
     }
 
     if (!mounted) return;
 
     setState(() {
-      _retorno = retorno;
+      _retorno = retorno.toString();
     });
   }
 
