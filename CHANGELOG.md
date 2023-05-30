@@ -1,3 +1,7 @@
+## 1.0.2
+
+- Downgrading sdk and flutter version
+
 ## 1.0.1
 
 - Automatic Deploy
