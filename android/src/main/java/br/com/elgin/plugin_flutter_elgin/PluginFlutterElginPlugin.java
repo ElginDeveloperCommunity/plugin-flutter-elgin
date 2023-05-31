@@ -1,9 +1,7 @@
 package br.com.elgin.plugin_flutter_elgin;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 
 import androidx.annotation.NonNull;
 
@@ -31,7 +29,7 @@ public class PluginFlutterElginPlugin implements FlutterPlugin, MethodCallHandle
   private MethodChannel channel;
   private Activity activity;
   private static final String CHANNEL = "elgin.plugin/e1";
-  private static final int IDH_INTENTS_REQUESTCODE = 1000;
+  private static final int IDH_INTENTS_REQUEST_CODE = 1000;
   private static final int REQUEST_CODE_WRITE_EXTERNAL_STORAGE = 2000;
   private static MethodChannel.Result methodChannelResult;
 
@@ -69,13 +67,13 @@ public class PluginFlutterElginPlugin implements FlutterPlugin, MethodCallHandle
       return;
     }
 
-    activity.startActivityForResult(intent, IDH_INTENTS_REQUESTCODE);
+    activity.startActivityForResult(intent, IDH_INTENTS_REQUEST_CODE);
   }
 
   @Override
   public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
 
-    if (resultCode == Activity.RESULT_OK && requestCode == IDH_INTENTS_REQUESTCODE) {
+    if (resultCode == Activity.RESULT_OK && requestCode == IDH_INTENTS_REQUEST_CODE) {
       try{
         if (data == null) return false;
         final String ret = data.getStringExtra("retorno");
