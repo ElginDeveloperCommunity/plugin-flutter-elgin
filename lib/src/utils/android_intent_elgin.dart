@@ -16,6 +16,13 @@ class AndroidIntent {
     };
   }
 
+  Map<String, dynamic> buildTefArguments(Map<String, dynamic> arguments) {
+    arguments.addAll({
+      'activityFilterPath': activityFilterPath,
+    });
+    return arguments;
+  }
+
   Future<String?> sendIntent(Map<String, dynamic> arguments) async {
     return await methodChannel.invokeMethod<String>(
         'intent', <String, dynamic>{'arguments': arguments});
