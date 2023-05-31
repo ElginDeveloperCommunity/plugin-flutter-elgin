@@ -30,7 +30,6 @@ public class PluginFlutterElginPlugin implements FlutterPlugin, MethodCallHandle
   /// when the Flutter Engine is detached from the Activity
   private MethodChannel channel;
   private Activity activity;
-  private Context context;
   private static final String CHANNEL = "elgin.plugin/e1";
   private static final int IDH_INTENTS_REQUESTCODE = 1000;
   private static final int REQUEST_CODE_WRITE_EXTERNAL_STORAGE = 2000;
@@ -40,7 +39,6 @@ public class PluginFlutterElginPlugin implements FlutterPlugin, MethodCallHandle
   public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
     channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), CHANNEL);
     channel.setMethodCallHandler(this);
-    context = flutterPluginBinding.getApplicationContext();
   }
 
   @Override
