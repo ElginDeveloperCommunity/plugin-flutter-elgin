@@ -9,7 +9,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
@@ -29,14 +28,11 @@ public class PluginFlutterElginPlugin implements FlutterPlugin, MethodCallHandle
   /// when the Flutter Engine is detached from the Activity
   private MethodChannel channel;
   private Activity activity;
-  private static final String CHANNEL = "elgin.plugin/e1";
-  private static final int IDH_INTENTS_REQUEST_CODE = 1000;
-  private static final int REQUEST_CODE_WRITE_EXTERNAL_STORAGE = 2000;
   private static MethodChannel.Result methodChannelResult;
 
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
-    channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), CHANNEL);
+    channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), Defines.CHANNEL);
     channel.setMethodCallHandler(this);
   }
 
@@ -45,41 +41,34 @@ public class PluginFlutterElginPlugin implements FlutterPlugin, MethodCallHandle
     // result that returns the value to flutter
     methodChannelResult = result;
 
-    if (call.method.equals("intent")) {
-      Map<String, Object> arguments = call.argument("arguments");
+    if (call.method.equals(Defines.INTENT)) {
+      Map<String, Object> arguments = call.argument(Defines.ARGUMENTS);
       if (arguments == null) {
-        result.error("MissingArguments", "Missing Arguments 'arguments' in invokeMethod", null);
+        result.error(Defines.ERROR_MISSING_ARGUMENTS, Defines.ERROR_MISSING_ARGUMENTS_DESC, null);
         return;
       }
-      startIntent(convertMap(arguments));
-    } else if (call.method.equals("getPlatformVersion")) {
+      startIntent(Utils.convertMap(arguments));
+    } else if (call.method.equals(Defines.GET_PLATFORM_VERSION)) {
       result.success("Android " + android.os.Build.VERSION.RELEASE);
     } else {
       result.notImplemented();
     }
   }
 
-  private Map<String, String> convertMap(Map<String, Object> keysObjectsMap) {
-    Map<String, String> keysStringsMap = new HashMap<String, String>();
-    for (String key : keysObjectsMap.keySet()) {
-      if (keysObjectsMap.get(key) instanceof String) {
-        keysStringsMap.put(key, (String) keysObjectsMap.get(key));
-      }
-    }
-      return keysStringsMap;
-  }
-
   private void startIntent(Map<String, String> argumentsIntent) {
-    final String activityFilterPath = argumentsIntent.remove("activityFilterPath");
-    final String intentPayload = argumentsIntent.remove("intentPayload");
+    final String activityFilterPath = argumentsIntent.remove(Defines.ACTIVITY_FILTER_PATH);
+    final String intentPayload = argumentsIntent.remove(Defines.INTENT_PAYLOAD);
+    final int code;
 
     final Intent intent = new Intent(activityFilterPath);
 
     if (intentPayload != null) {
       // normal idh flow
-      intent.putExtra("comando", intentPayload);
+      code = Defines.IDH_INTENTS_ARRAY_REQUEST_CODE;
+      intent.putExtra(Defines.COMANDO, intentPayload);
     } else {
       // tef flow
+      code = Defines.IDH_INTENTS_OBJECT_REQUEST_CODE;
       for (String key : argumentsIntent.keySet()) {
         intent.putExtra(key, argumentsIntent.get(key));
       }
@@ -87,34 +76,45 @@ public class PluginFlutterElginPlugin implements FlutterPlugin, MethodCallHandle
 
     // verify that the intent will resolve to an activity
     if (intent.resolveActivity(activity.getPackageManager()) == null) {
-      methodChannelResult.error("ActivityNotFound", "No Activity to resolve", null);
+      methodChannelResult.error(Defines.ERROR_ACTIVITY_NOT_FOUND, Defines.ERROR_ACTIVITY_NOT_FOUND_DESC, null);
       return;
     }
 
-    activity.startActivityForResult(intent, IDH_INTENTS_REQUEST_CODE);
+    activity.startActivityForResult(intent, code);
   }
 
   @Override
   public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
 
-    if (resultCode == Activity.RESULT_OK && requestCode == IDH_INTENTS_REQUEST_CODE) {
+    if (resultCode == Activity.RESULT_OK ) {
       try{
         if (data == null) return false;
-        final String ret = data.getStringExtra("retorno");
-        JSONArray jsonArrayReturn = new JSONArray(ret);
-        // just to check the format of the json returned by idh
-        JSONObject jsonObjectReturn = jsonArrayReturn.getJSONObject(0);
-        
-        methodChannelResult.success(jsonArrayReturn.toString());
-        return true;
+        final String ret = data.getStringExtra(Defines.RETORNO);
+
+        if (requestCode == Defines.IDH_INTENTS_ARRAY_REQUEST_CODE) {
+          JSONArray jsonArrayReturn = new JSONArray(ret);
+          // just to check the format of the json returned by idh
+          jsonArrayReturn.getJSONObject(0);
+
+          methodChannelResult.success(jsonArrayReturn.toString());
+          return true;
+        } else if (requestCode == Defines.IDH_INTENTS_OBJECT_REQUEST_CODE){
+          // just to check the format of the json returned by idh
+          JSONObject jsonObjectReturn = new JSONObject(ret);
+          methodChannelResult.success(jsonObjectReturn.toString());
+          return true;
+        } else {
+          methodChannelResult.error(Defines.ERROR_NO_RETURN, Defines.ERROR_NO_RETURN_DESC, null);
+          return false;
+        }
       } catch (JSONException jsonException) {
         jsonException.printStackTrace();
-        methodChannelResult.error("JSON_FORMAT_ERROR", "The JSON format is incorrect or DigitalHub App is not installed", null);
+        methodChannelResult.error(Defines.ERROR_JSON_FORMAT, Defines.ERROR_JSON_FORMAT_DESC, null);
         return false;
       }
 
     }
-    methodChannelResult.error("NO_RETURN", "No return of function intent", null);
+    methodChannelResult.error(Defines.ERROR_RESULT_CODE, Defines.ERROR_RESULT_CODE_DESC, null);
     return false;
   }
 
