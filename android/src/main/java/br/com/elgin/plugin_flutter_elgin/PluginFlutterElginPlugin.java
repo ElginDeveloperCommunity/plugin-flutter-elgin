@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
@@ -45,7 +46,12 @@ public class PluginFlutterElginPlugin implements FlutterPlugin, MethodCallHandle
     methodChannelResult = result;
 
     if (call.method.equals("intent")) {
-      startIntent(call.argument("arguments"));
+      Map<String, Object> arguments = call.argument("arguments");
+      if (arguments == null) {
+        result.error("MissingArguments", "Missing Arguments 'arguments' in invokeMethod", null);
+        return;
+      }
+      startIntent(convertMap(arguments));
     } else if (call.method.equals("getPlatformVersion")) {
       result.success("Android " + android.os.Build.VERSION.RELEASE);
     } else {
@@ -53,13 +59,31 @@ public class PluginFlutterElginPlugin implements FlutterPlugin, MethodCallHandle
     }
   }
 
-  private void startIntent(Map<String, Object> argumentsIntent) {
-    final String activityFilterPath = (String) argumentsIntent.get("activityFilterPath");
-    final String intentPayload = (String) argumentsIntent.get("intentPayload");
+  private Map<String, String> convertMap(Map<String, Object> keysObjectsMap) {
+    Map<String, String> keysStringsMap = new HashMap<String, String>();
+    for (String key : keysObjectsMap.keySet()) {
+      if (keysObjectsMap.get(key) instanceof String) {
+        keysStringsMap.put(key, (String) keysObjectsMap.get(key));
+      }
+    }
+      return keysStringsMap;
+  }
+
+  private void startIntent(Map<String, String> argumentsIntent) {
+    final String activityFilterPath = argumentsIntent.remove("activityFilterPath");
+    final String intentPayload = argumentsIntent.remove("intentPayload");
 
     final Intent intent = new Intent(activityFilterPath);
 
-    intent.putExtra("comando", intentPayload);
+    if (intentPayload != null) {
+      // normal idh flow
+      intent.putExtra("comando", intentPayload);
+    } else {
+      // tef flow
+      for (String key : argumentsIntent.keySet()) {
+        intent.putExtra(key, argumentsIntent.get(key));
+      }
+    }
 
     // verify that the intent will resolve to an activity
     if (intent.resolveActivity(activity.getPackageManager()) == null) {
