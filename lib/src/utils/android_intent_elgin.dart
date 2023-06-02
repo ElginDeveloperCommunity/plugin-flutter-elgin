@@ -29,6 +29,11 @@ class AndroidIntent {
   }
 
   dynamic extractResult(String response) {
+    final dynamic json = jsonDecode(response);
+    return json['resultado'];
+  }
+
+  dynamic extractListResult(String response) {
     final List<dynamic> json = jsonDecode(response);
     return json[0]['resultado'];
   }
