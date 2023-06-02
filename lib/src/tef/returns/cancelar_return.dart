@@ -1,3 +1,5 @@
+import '../../utils/android_intent_elgin.dart';
+
 class CancelarReturn {
   // equals to VenderReturn less autorizacao
   final String mensagem;
@@ -53,6 +55,10 @@ class CancelarReturn {
   }
 
   factory CancelarReturn.fromJson(Map<String, dynamic> json) {
+    String? viaCliente = AndroidIntent.unescapeIdhReturn(json, 'viaCliente');
+    String? viaSms = AndroidIntent.unescapeIdhReturn(json, 'viaSMS');
+    String? viaE = AndroidIntent.unescapeIdhReturn(json, 'viaEstabelecimento');
+
     return CancelarReturn(
         mensagem: json['mensagem'] as String,
         administradora: json['administradora'] as String?,
@@ -66,9 +72,9 @@ class CancelarReturn {
         tipoCartao: json['tipoCartao'] as String?,
         valor: json['valor'] as String?,
         vencimento: json['vencimento'] as String?,
-        viaCliente: json['viaCliente'] as String?,
-        viaEstabelecimento: json['viaEstabelecimento'] as String?,
-        viaSMS: json['viaSMS'] as String?);
+        viaCliente: viaCliente,
+        viaEstabelecimento: viaE,
+        viaSMS: viaSms);
   }
 
   Map<String, dynamic> toJson() => {
