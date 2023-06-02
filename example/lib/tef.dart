@@ -11,6 +11,7 @@ class TefPage extends StatefulWidget {
 
 class _TefPageState extends State<TefPage> {
   String _retorno = 'Unknown';
+  List<VenderReturn> historicoVendas = [];
   final _pluginFlutterElginPlugin = PluginFlutterElgin();
 
   @override
@@ -42,7 +43,7 @@ class _TefPageState extends State<TefPage> {
   }
 
   Future<void> configuracao() async {
-    String retorno = await _pluginFlutterElginPlugin.tef.configuracao(
+    var retorno = await _pluginFlutterElginPlugin.tef.configuracao(
         'Elgin Tef Web',
         '0.0.1',
         'TEF WEB',
@@ -55,73 +56,106 @@ class _TefPageState extends State<TefPage> {
     if (!mounted) return;
 
     setState(() {
-      _retorno = retorno;
+      _retorno = retorno.mensagem;
     });
   }
 
   Future<void> ativacao() async {
-    String retorno =
-        await _pluginFlutterElginPlugin.tef.ativacao('14.200.166/0001-66');
-
-    if (!mounted) return;
-
-    setState(() {
-      _retorno = retorno;
-    });
+    await _pluginFlutterElginPlugin.tef.ativacao('14.200.166/0001-66');
   }
 
   Future<void> reimpressao() async {
-    String retorno = await _pluginFlutterElginPlugin.tef.reimpressao();
+    var retorno = await _pluginFlutterElginPlugin.tef.reimpressao();
 
     if (!mounted) return;
 
     setState(() {
-      _retorno = retorno;
+      if (retorno.isTransaction()) {
+        _retorno = retorno.valor!;
+      } else {
+        _retorno = 'nulo';
+      }
     });
   }
 
   Future<void> relatorio() async {
-    String retorno = await _pluginFlutterElginPlugin.tef.relatorio();
+    final relatorio = await _pluginFlutterElginPlugin.tef.relatorio();
+    String? mensagem = relatorio.mensagem;
+    String? relatorioTransacoes = relatorio.relatorioTransacoes;
 
     if (!mounted) return;
 
     setState(() {
-      _retorno = retorno;
+      if (relatorioTransacoes != null) {
+        _retorno = relatorioTransacoes;
+      } else {
+        _retorno = mensagem!;
+      }
     });
   }
 
   Future<void> venda() async {
-    String retorno = await _pluginFlutterElginPlugin.tef.venda();
+    final venda = await _pluginFlutterElginPlugin.tef.venda();
 
     if (!mounted) return;
 
     setState(() {
-      _retorno = retorno;
+      if (venda.isTransaction()) {
+        historicoVendas.add(venda);
+        _retorno =
+            'valor: ${venda.valor!}, nsu: ${venda.nsu!}, data: ${venda.data!}';
+      } else {
+        _retorno = venda.mensagem;
+      }
     });
   }
 
   Future<void> debito() async {
-    String retorno = await _pluginFlutterElginPlugin.tef.debito(1);
+    final debito = await _pluginFlutterElginPlugin.tef.debito(1);
 
     if (!mounted) return;
 
     setState(() {
-      _retorno = retorno;
+      if (debito.isTransaction()) {
+        historicoVendas.add(debito);
+        _retorno =
+            'valor: ${debito.valor!}, nsu: ${debito.nsu!}, data: ${debito.data!}';
+      } else {
+        _retorno = debito.mensagem;
+      }
     });
   }
 
   Future<void> credito() async {
-    String retorno = await _pluginFlutterElginPlugin.tef.credito(1, 1, 1);
+    final credito = await _pluginFlutterElginPlugin.tef.credito(1, 1, 1);
 
     if (!mounted) return;
 
     setState(() {
-      _retorno = retorno;
+      if (credito.isTransaction()) {
+        historicoVendas.add(credito);
+        _retorno =
+            'valor: ${credito.valor!}, nsu: ${credito.nsu!}, data: ${credito.data!}';
+      } else {
+        _retorno = credito.mensagem;
+      }
     });
   }
 
   Future<void> cancelamento() async {
-    String retorno = await _pluginFlutterElginPlugin.tef.credito(1, 1, 1);
+    String retorno;
+    if (historicoVendas.isNotEmpty) {
+      final ultimaVenda = historicoVendas.removeLast();
+      String nsu = ultimaVenda.nsu!;
+      String data = ultimaVenda.data!;
+      String valor = ultimaVenda.valor!;
+
+      final cancelamento = await _pluginFlutterElginPlugin.tef
+          .cancelamento(double.parse(valor), nsu, data);
+      retorno = cancelamento.mensagem;
+    } else {
+      retorno = 'Primeiro realizar uma venda';
+    }
 
     if (!mounted) return;
 
