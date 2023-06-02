@@ -37,6 +37,25 @@ class TefMethodChannel extends TefPlatform {
   @override
   Future<CancelarReturn> cancelamento(
       double valor, String nsu, String data) async {
+    // format nsu
+    nsu = nsu.length != 6 ? nsu.padLeft(6, '0') : nsu;
+
+    // format date
+    final idhReturnDataFormat =
+        RegExp(r'^\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\.\d{3}$');
+    final ddmmyyFormat = RegExp(r'^\d{2}/\d{2}/\d{2}$');
+    final ddmmyyyyFormat = RegExp(r'^\d{2}/\d{2}/\d{4}$');
+
+    if (idhReturnDataFormat.hasMatch(data)) {
+      data = data.split(' ')[0].replaceFirst('/20', '/');
+    } else if (ddmmyyyyFormat.hasMatch(data)) {
+      data = data.replaceFirst('/20', '/');
+    } else if (ddmmyyFormat.hasMatch(data)) {
+      // do nothing since the format is already correct
+    } else {
+      throw const FormatException('Invalid date format');
+    }
+
     Map<String, dynamic> tefParams = {
       'funcao': 'cancelar',
       'valor': valor.toStringAsFixed(2),
