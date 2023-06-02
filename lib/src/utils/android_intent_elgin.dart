@@ -38,7 +38,15 @@ class AndroidIntent {
     return json[0]['resultado'];
   }
 
-  String unescape(String input) {
+  static String? unescapeIdhReturn(Map<String, dynamic> json, String key) {
+    String? value = json[key];
+    if (value != null) {
+      value = unescape(value);
+    }
+    return value;
+  }
+
+  static String unescape(String input) {
     final sb = StringBuffer();
 
     while (input.isNotEmpty) {
