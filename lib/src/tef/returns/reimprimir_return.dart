@@ -71,7 +71,7 @@ class ReimprimirReturn {
   }
 
   Map<String, dynamic> toJson() => {
-        //'mensagem': mensagem,
+        'mensagem': mensagem,
         'administradora': administradora,
         'autorizacao': autorizacao,
         'data': data,
