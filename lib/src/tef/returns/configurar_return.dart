@@ -1,10 +1,10 @@
-class ConfigurarRetorno {
+class ConfigurarReturn {
   final String mensagem;
 
-  const ConfigurarRetorno({required this.mensagem});
+  const ConfigurarReturn({required this.mensagem});
 
-  factory ConfigurarRetorno.fromJson(Map<String, dynamic> json) {
-    return ConfigurarRetorno(mensagem: json['mensagem'] as String);
+  factory ConfigurarReturn.fromJson(Map<String, dynamic> json) {
+    return ConfigurarReturn(mensagem: json['mensagem'] as String);
   }
 
   Map<String, dynamic> toJson() => {'mensagem': mensagem};
