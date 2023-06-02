@@ -38,7 +38,7 @@ class TefMethodChannel extends TefPlatform {
   Future<CancelarReturn> cancelamento(
       double valor, String nsu, String data) async {
     Map<String, dynamic> tefParams = {
-      'funcao': 'cancelamento',
+      'funcao': 'cancelar',
       'valor': valor.toStringAsFixed(2),
       'nsu': nsu,
       'data': data
