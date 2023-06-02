@@ -1,3 +1,7 @@
+## 1.1.0
+
+- Added Tef methods
+
 ## 1.0.3
 
 - Adjusting Automatic Deploy
@@ -12,7 +16,7 @@
 
 ## 1.0.0
 
-- Primeira versão
-- [x] Comunicação via intent com o IDH
-- [x] Comunicação com o android
-- [x] Implementação das principais funções da Impressora
+- First version
+- [x] comunication with IDH via Intent
+- [x] comunication with android
+- [x] implementation of main functions of printer
