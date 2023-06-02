@@ -22,7 +22,7 @@ class PrinterMethodChannel extends PrinterPlatform {
         androidIntent.buildArguments(functionName, params);
     final ret = await androidIntent.sendIntent(arguments);
     if (ret == null) return -1111;
-    final int idhReturn = androidIntent.extractResult(ret);
+    final int idhReturn = androidIntent.extractListResult(ret);
 
     debugPrint(functionName);
     debugPrint(params);
@@ -40,7 +40,7 @@ class PrinterMethodChannel extends PrinterPlatform {
         androidIntent.buildArguments(functionName, params);
     final ret = await androidIntent.sendIntent(arguments);
     if (ret == null) return -1111;
-    final int idhReturn = androidIntent.extractResult(ret);
+    final int idhReturn = androidIntent.extractListResult(ret);
 
     debugPrint(functionName);
     debugPrint(params);
@@ -58,7 +58,7 @@ class PrinterMethodChannel extends PrinterPlatform {
         androidIntent.buildArguments(functionName, params);
     final ret = await androidIntent.sendIntent(arguments);
     if (ret == null) return -1111;
-    final int idhReturn = androidIntent.extractResult(ret);
+    final int idhReturn = androidIntent.extractListResult(ret);
 
     debugPrint(functionName);
     debugPrint(params);
@@ -76,7 +76,7 @@ class PrinterMethodChannel extends PrinterPlatform {
         androidIntent.buildArguments(functionName, params);
     final ret = await androidIntent.sendIntent(arguments);
     if (ret == null) return -1111;
-    final int idhReturn = androidIntent.extractResult(ret);
+    final int idhReturn = androidIntent.extractListResult(ret);
 
     debugPrint(functionName);
     debugPrint(params);
@@ -101,7 +101,7 @@ class PrinterMethodChannel extends PrinterPlatform {
         androidIntent.buildArguments(functionName, params);
     final ret = await androidIntent.sendIntent(arguments);
     if (ret == null) return -1111;
-    final int idhReturn = androidIntent.extractResult(ret);
+    final int idhReturn = androidIntent.extractListResult(ret);
 
     debugPrint(functionName);
     debugPrint(params);
@@ -120,7 +120,7 @@ class PrinterMethodChannel extends PrinterPlatform {
         androidIntent.buildArguments(functionName, params);
     final ret = await androidIntent.sendIntent(arguments);
     if (ret == null) return -1111;
-    final int idhReturn = androidIntent.extractResult(ret);
+    final int idhReturn = androidIntent.extractListResult(ret);
 
     debugPrint(functionName);
     debugPrint(params);
