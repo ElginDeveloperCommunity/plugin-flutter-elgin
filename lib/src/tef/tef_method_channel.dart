@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
+import 'package:plugin_flutter_elgin/src/tef/returns/index.dart';
 import 'package:plugin_flutter_elgin/src/tef/tef_platform_interface.dart';
 import 'package:plugin_flutter_elgin/src/utils/android_intent_elgin.dart';
 import 'package:plugin_flutter_elgin/src/utils/device.dart';
@@ -9,21 +12,31 @@ class TefMethodChannel extends TefPlatform {
   TefMethodChannel()
       : androidIntent = AndroidIntent(Device.tefActivityFilterPath);
 
-  @override
-  Future<String> ativacao(String cnpjCpf) async {
-    Map<String, dynamic> tefParams = {'funcao': 'ativar', 'cnpjCpf': cnpjCpf};
-
+  Future<Map<String, dynamic>> makeTransaction(
+      Map<String, dynamic> tefParams) async {
     Map<String, dynamic> arguments = androidIntent.buildTefArguments(tefParams);
     final ret = await androidIntent.sendIntent(arguments);
-    if (ret == null) return '-1111';
-
+    if (ret == null) return throw Error();
+    final result = androidIntent.extractResult(ret) as String;
     debugPrint(arguments.toString());
-    return ret;
-    // {}
+    debugPrint(result);
+    return jsonDecode(result);
   }
 
   @override
-  Future<String> cancelamento(double valor, String nsu, String data) async {
+  Future ativacao(String cnpjCpf) async {
+    Map<String, dynamic> tefParams = {'funcao': 'ativar', 'cnpjCpf': cnpjCpf};
+
+    Map<String, dynamic> arguments = androidIntent.buildTefArguments(tefParams);
+    await androidIntent.sendIntent(arguments);
+
+    debugPrint(arguments.toString());
+    // extracted result returns = {}
+  }
+
+  @override
+  Future<CancelarReturn> cancelamento(
+      double valor, String nsu, String data) async {
     Map<String, dynamic> tefParams = {
       'funcao': 'cancelamento',
       'valor': valor.toStringAsFixed(2),
@@ -31,16 +44,13 @@ class TefMethodChannel extends TefPlatform {
       'data': data
     };
 
-    Map<String, dynamic> arguments = androidIntent.buildTefArguments(tefParams);
-    final ret = await androidIntent.sendIntent(arguments);
-    if (ret == null) return '-1111';
-
-    debugPrint(arguments.toString());
-    return ret;
+    final result = await makeTransaction(tefParams);
+    final idhResponse = CancelarReturn.fromJson(result);
+    return idhResponse;
   }
 
   @override
-  Future<String> configuracao(
+  Future<ConfigurarReturn> configuracao(
       String nome,
       String versao,
       String textoPinpad,
@@ -61,17 +71,14 @@ class TefMethodChannel extends TefPlatform {
       'loja': loja
     };
 
-    Map<String, dynamic> arguments = androidIntent.buildTefArguments(tefParams);
-    final ret = await androidIntent.sendIntent(arguments);
-    if (ret == null) return '-1111';
-
-    debugPrint(arguments.toString());
-    return ret;
-    // mensagem
+    final result = await makeTransaction(tefParams);
+    final idhResponse = ConfigurarReturn.fromJson(result);
+    return idhResponse;
   }
 
   @override
-  Future<String> credito(double valor, int parcelas, int financiamento) async {
+  Future<VenderReturn> credito(
+      double valor, int parcelas, int financiamento) async {
     Map<String, dynamic> tefParams = {
       'funcao': 'credito',
       'valor': valor.toStringAsFixed(2),
@@ -79,62 +86,47 @@ class TefMethodChannel extends TefPlatform {
       'financiamento': financiamento.toString()
     };
 
-    Map<String, dynamic> arguments = androidIntent.buildTefArguments(tefParams);
-    final ret = await androidIntent.sendIntent(arguments);
-    if (ret == null) return '-1111';
-
-    debugPrint(arguments.toString());
-    return ret;
+    final result = await makeTransaction(tefParams);
+    final idhReturn = VenderReturn.fromJson(result);
+    return idhReturn;
   }
 
   @override
-  Future<String> debito(double valor) async {
+  Future<VenderReturn> debito(double valor) async {
     Map<String, dynamic> tefParams = {
       'funcao': 'debito',
       'valor': valor.toStringAsFixed(2)
     };
 
-    Map<String, dynamic> arguments = androidIntent.buildTefArguments(tefParams);
-    final ret = await androidIntent.sendIntent(arguments);
-    if (ret == null) return '-1111';
-
-    debugPrint(arguments.toString());
-    return ret;
+    final result = await makeTransaction(tefParams);
+    final idhReturn = VenderReturn.fromJson(result);
+    return idhReturn;
   }
 
   @override
-  Future<String> reimpressao() async {
+  Future<ReimprimirReturn> reimpressao() async {
     Map<String, dynamic> tefParams = {'funcao': 'reimprimir'};
 
-    Map<String, dynamic> arguments = androidIntent.buildTefArguments(tefParams);
-    final ret = await androidIntent.sendIntent(arguments);
-    if (ret == null) return '-1111';
-
-    debugPrint(arguments.toString());
-    return ret;
+    final result = await makeTransaction(tefParams);
+    final idhReturn = ReimprimirReturn.fromJson(result);
+    return idhReturn;
   }
 
   @override
-  Future<String> relatorio() async {
+  Future<RelatorioReturn> relatorio() async {
     Map<String, dynamic> tefParams = {'funcao': 'relatorio'};
 
-    Map<String, dynamic> arguments = androidIntent.buildTefArguments(tefParams);
-    final ret = await androidIntent.sendIntent(arguments);
-    if (ret == null) return '-1111';
-
-    debugPrint(arguments.toString());
-    return ret;
+    final result = await makeTransaction(tefParams);
+    final idhReturn = RelatorioReturn.fromJson(result);
+    return idhReturn;
   }
 
   @override
-  Future<String> venda() async {
+  Future<VenderReturn> venda() async {
     Map<String, dynamic> tefParams = {'funcao': 'vender'};
 
-    Map<String, dynamic> arguments = androidIntent.buildTefArguments(tefParams);
-    final ret = await androidIntent.sendIntent(arguments);
-    if (ret == null) return '-1111';
-
-    debugPrint(arguments.toString());
-    return ret;
+    final result = await makeTransaction(tefParams);
+    final idhReturn = VenderReturn.fromJson(result);
+    return idhReturn;
   }
 }
