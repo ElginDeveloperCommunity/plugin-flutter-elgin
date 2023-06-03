@@ -1,6 +1,6 @@
 import 'package:plugin_flutter_elgin/src/pix4/pix4_platform_interface.dart';
 
-class Printer {
+class Pix4 {
   Future<int> abreConexaoDisplay(String porta) {
     return Pix4Platform.instance.abreConexaoDisplay(porta);
   }
