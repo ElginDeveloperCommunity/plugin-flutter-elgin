@@ -108,6 +108,19 @@ class _TefPageState extends State<TefPage> {
         _retorno = venda.mensagem;
       }
     });
+<<<<<<< HEAD
+=======
+
+    // imprime cupom após venda
+    if (venda.isTransaction()) {
+      await _pluginFlutterElginPlugin.printer
+          .abreConexaoImpressora(5, '', '', 0);
+      await _pluginFlutterElginPlugin.printer
+          .impressaoTexto(venda.viaCliente!, 1, 1, 0);
+      await _pluginFlutterElginPlugin.printer.corte(5);
+      await _pluginFlutterElginPlugin.printer.fechaConexao();
+    }
+>>>>>>> ab4be9a0d3eca3b1c2cadcb5693d7a2b8de2a48e
   }
 
   Future<void> debito() async {
@@ -124,6 +137,19 @@ class _TefPageState extends State<TefPage> {
         _retorno = debito.mensagem;
       }
     });
+<<<<<<< HEAD
+=======
+
+    // imprime cupom após venda
+    if (debito.isTransaction()) {
+      await _pluginFlutterElginPlugin.printer
+          .abreConexaoImpressora(5, '', '', 0);
+      await _pluginFlutterElginPlugin.printer
+          .impressaoTexto(debito.viaCliente!, 1, 1, 0);
+      await _pluginFlutterElginPlugin.printer.corte(5);
+      await _pluginFlutterElginPlugin.printer.fechaConexao();
+    }
+>>>>>>> ab4be9a0d3eca3b1c2cadcb5693d7a2b8de2a48e
   }
 
   Future<void> credito() async {
@@ -140,6 +166,19 @@ class _TefPageState extends State<TefPage> {
         _retorno = credito.mensagem;
       }
     });
+<<<<<<< HEAD
+=======
+
+    // imprime cupom após venda
+    if (credito.isTransaction()) {
+      await _pluginFlutterElginPlugin.printer
+          .abreConexaoImpressora(5, '', '', 0);
+      await _pluginFlutterElginPlugin.printer
+          .impressaoTexto(credito.viaCliente!, 1, 1, 0);
+      await _pluginFlutterElginPlugin.printer.corte(5);
+      await _pluginFlutterElginPlugin.printer.fechaConexao();
+    }
+>>>>>>> ab4be9a0d3eca3b1c2cadcb5693d7a2b8de2a48e
   }
 
   Future<void> cancelamento() async {

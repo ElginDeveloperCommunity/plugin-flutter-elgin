@@ -1,3 +1,5 @@
+import '../../utils/android_intent_elgin.dart';
+
 class ReimprimirReturn {
   final String? mensagem;
   final String? administradora;
@@ -52,6 +54,10 @@ class ReimprimirReturn {
   }
 
   factory ReimprimirReturn.fromJson(Map<String, dynamic> json) {
+    String? viaCliente = AndroidIntent.unescapeIdhReturn(json, 'viaCliente');
+    String? viaSms = AndroidIntent.unescapeIdhReturn(json, 'viaSMS');
+    String? viaE = AndroidIntent.unescapeIdhReturn(json, 'viaEstabelecimento');
+
     return ReimprimirReturn(
         mensagem: json['mensagem'] as String? ?? 'FUNÇÃO EXECUTADA COM SUCESSO',
         administradora: json['administradora'] as String?,
@@ -65,9 +71,9 @@ class ReimprimirReturn {
         tipoCartao: json['tipoCartao'] as String?,
         valor: json['valor'] as String?,
         vencimento: json['vencimento'] as String?,
-        viaCliente: json['viaCliente'] as String?,
-        viaEstabelecimento: json['viaEstabelecimento'] as String?,
-        viaSMS: json['viaSMS'] as String?);
+        viaCliente: viaCliente,
+        viaEstabelecimento: viaE,
+        viaSMS: viaSms);
   }
 
   Map<String, dynamic> toJson() => {
