@@ -1,3 +1,7 @@
+## 1.1.1
+
+- Finished adding printer methods
+
 ## 1.1.0
 
 - Added Tef methods
