@@ -1,3 +1,7 @@
+## 1.2.0
+
+- Added Pix4 methods
+
 ## 1.1.1
 
 - Finished adding printer methods
