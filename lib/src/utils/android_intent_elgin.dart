@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 class AndroidIntent {
@@ -44,6 +45,40 @@ class AndroidIntent {
       value = unescape(value);
     }
     return value;
+  }
+
+  String generateParamsString(Map<String, dynamic> params) {
+    List<String> paramList = [];
+
+    params.forEach((key, value) {
+      String paramValue;
+
+      if (value is String) {
+        paramValue = '"$value"';
+      } else {
+        paramValue = value.toString();
+      }
+
+      paramList.add('"$key": $paramValue');
+    });
+
+    return '{${paramList.join(', ')}}';
+  }
+
+  Future<dynamic> makeTransaction(
+      String functionName, Map<String, dynamic> params) async {
+    String paramsString = generateParamsString(params);
+    Map<String, dynamic> arguments = buildArguments(functionName, paramsString);
+    final ret = await sendIntent(arguments);
+    if (ret == null) return throw Error();
+    final idhReturn = extractListResult(ret);
+
+    debugPrint(functionName);
+    debugPrint(paramsString);
+    debugPrint(arguments.toString());
+    debugPrint('Return idh: $idhReturn');
+
+    return idhReturn;
   }
 
   static String unescape(String input) {

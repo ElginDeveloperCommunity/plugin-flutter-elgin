@@ -11,43 +11,6 @@ class PrinterMethodChannel extends PrinterPlatform {
       : androidIntent = AndroidIntent(Device.printerActivityFilterPath);
 
   @override
-  String generateParamsString(Map<String, dynamic> params) {
-    List<String> paramList = [];
-
-    params.forEach((key, value) {
-      String paramValue;
-
-      if (value is String) {
-        paramValue = '"$value"';
-      } else {
-        paramValue = value.toString();
-      }
-
-      paramList.add('"$key": $paramValue');
-    });
-
-    return '{${paramList.join(', ')}}';
-  }
-
-  @override
-  Future<dynamic> makeTransaction(
-      String functionName, Map<String, dynamic> params) async {
-    String paramsString = generateParamsString(params);
-    Map<String, dynamic> arguments =
-        androidIntent.buildArguments(functionName, paramsString);
-    final ret = await androidIntent.sendIntent(arguments);
-    if (ret == null) return throw Error();
-    final idhReturn = androidIntent.extractListResult(ret);
-
-    debugPrint(functionName);
-    debugPrint(paramsString);
-    debugPrint(arguments.toString());
-    debugPrint('Return idh: $idhReturn');
-
-    return idhReturn;
-  }
-
-  @override
   Future<int> abreConexaoImpressora(
       int tipo, String modelo, String conexao, int parametro) async {
     String functionName = 'AbreConexaoImpressora';
@@ -59,7 +22,8 @@ class PrinterMethodChannel extends PrinterPlatform {
       'parametro': parametro
     };
 
-    final int idhReturn = await makeTransaction(functionName, params);
+    final int idhReturn =
+        await androidIntent.makeTransaction(functionName, params);
     return idhReturn;
   }
 
@@ -68,7 +32,8 @@ class PrinterMethodChannel extends PrinterPlatform {
     String functionName = 'FechaConexaoImpressora';
     Map<String, dynamic> params = {};
 
-    final int idhReturn = await makeTransaction(functionName, params);
+    final int idhReturn =
+        await androidIntent.makeTransaction(functionName, params);
     return idhReturn;
   }
 
@@ -77,7 +42,8 @@ class PrinterMethodChannel extends PrinterPlatform {
     String functionName = 'AvancaPapel';
     Map<String, dynamic> params = {'linhas': linhas};
 
-    final int idhReturn = await makeTransaction(functionName, params);
+    final int idhReturn =
+        await androidIntent.makeTransaction(functionName, params);
     return idhReturn;
   }
 
@@ -86,7 +52,8 @@ class PrinterMethodChannel extends PrinterPlatform {
     String functionName = 'Corte';
     Map<String, dynamic> params = {'avanco': linhas};
 
-    final int idhReturn = await makeTransaction(functionName, params);
+    final int idhReturn =
+        await androidIntent.makeTransaction(functionName, params);
     return idhReturn;
   }
 
@@ -102,7 +69,8 @@ class PrinterMethodChannel extends PrinterPlatform {
       'tamanho': tamanhoFonte
     };
 
-    final int idhReturn = await makeTransaction(functionName, params);
+    final int idhReturn =
+        await androidIntent.makeTransaction(functionName, params);
     return idhReturn;
   }
 
@@ -111,7 +79,8 @@ class PrinterMethodChannel extends PrinterPlatform {
     String functionName = 'ImprimeXMLSAT';
     Map<String, dynamic> params = {'dados': data, 'param': param};
 
-    final int idhReturn = await makeTransaction(functionName, params);
+    final int idhReturn =
+        await androidIntent.makeTransaction(functionName, params);
     return idhReturn;
   }
 
@@ -120,7 +89,8 @@ class PrinterMethodChannel extends PrinterPlatform {
     String functionName = 'AbreGaveta';
     Map<String, dynamic> params = {'pino': pino, 'ti': ti, 'tf': tf};
 
-    final int idhReturn = await makeTransaction(functionName, params);
+    final int idhReturn =
+        await androidIntent.makeTransaction(functionName, params);
     return idhReturn;
   }
 
@@ -129,7 +99,8 @@ class PrinterMethodChannel extends PrinterPlatform {
     String functionName = 'AbreGavetaElgin';
     Map<String, dynamic> params = {};
 
-    final int idhReturn = await makeTransaction(functionName, params);
+    final int idhReturn =
+        await androidIntent.makeTransaction(functionName, params);
     return idhReturn;
   }
 
@@ -138,7 +109,8 @@ class PrinterMethodChannel extends PrinterPlatform {
     String functionName = 'CorteTotal';
     Map<String, dynamic> params = {'avanco': avanco};
 
-    final int idhReturn = await makeTransaction(functionName, params);
+    final int idhReturn =
+        await androidIntent.makeTransaction(functionName, params);
     return idhReturn;
   }
 
@@ -147,7 +119,8 @@ class PrinterMethodChannel extends PrinterPlatform {
     String functionName = 'DefinePosicao';
     Map<String, dynamic> params = {'posicao': posicao};
 
-    final int idhReturn = await makeTransaction(functionName, params);
+    final int idhReturn =
+        await androidIntent.makeTransaction(functionName, params);
     return idhReturn;
   }
 
@@ -156,7 +129,8 @@ class PrinterMethodChannel extends PrinterPlatform {
     String functionName = 'EspacamentoEntreLinhas';
     Map<String, dynamic> params = {};
 
-    final int idhReturn = await makeTransaction(functionName, params);
+    final int idhReturn =
+        await androidIntent.makeTransaction(functionName, params);
     return idhReturn;
   }
 
@@ -172,7 +146,8 @@ class PrinterMethodChannel extends PrinterPlatform {
       'hri': hri
     };
 
-    final int idhReturn = await makeTransaction(functionName, params);
+    final int idhReturn =
+        await androidIntent.makeTransaction(functionName, params);
     return idhReturn;
   }
 
@@ -190,7 +165,8 @@ class PrinterMethodChannel extends PrinterPlatform {
       'dados': dados
     };
 
-    final int idhReturn = await makeTransaction(functionName, params);
+    final int idhReturn =
+        await androidIntent.makeTransaction(functionName, params);
     return idhReturn;
   }
 
@@ -204,7 +180,8 @@ class PrinterMethodChannel extends PrinterPlatform {
       'nivelCorrecao': nivelCorrecao
     };
 
-    final int idhReturn = await makeTransaction(functionName, params);
+    final int idhReturn =
+        await androidIntent.makeTransaction(functionName, params);
     return idhReturn;
   }
 
@@ -213,7 +190,8 @@ class PrinterMethodChannel extends PrinterPlatform {
     String functionName = 'ImprimeImagem';
     Map<String, dynamic> params = {'path': path};
 
-    final int idhReturn = await makeTransaction(functionName, params);
+    final int idhReturn =
+        await androidIntent.makeTransaction(functionName, params);
     return idhReturn;
   }
 
@@ -222,7 +200,8 @@ class PrinterMethodChannel extends PrinterPlatform {
     String functionName = 'ImprimeImagemMemoria';
     Map<String, dynamic> params = {'key': key, 'scala': scala};
 
-    final int idhReturn = await makeTransaction(functionName, params);
+    final int idhReturn =
+        await androidIntent.makeTransaction(functionName, params);
     return idhReturn;
   }
 
@@ -231,7 +210,8 @@ class PrinterMethodChannel extends PrinterPlatform {
     String functionName = 'ImprimeXMLCancelamentoNFCe';
     Map<String, dynamic> params = {'dados': dados, 'param': param};
 
-    final int idhReturn = await makeTransaction(functionName, params);
+    final int idhReturn =
+        await androidIntent.makeTransaction(functionName, params);
     return idhReturn;
   }
 
@@ -245,7 +225,8 @@ class PrinterMethodChannel extends PrinterPlatform {
       'param': param
     };
 
-    final int idhReturn = await makeTransaction(functionName, params);
+    final int idhReturn =
+        await androidIntent.makeTransaction(functionName, params);
     return idhReturn;
   }
 
@@ -260,7 +241,8 @@ class PrinterMethodChannel extends PrinterPlatform {
       'param': param
     };
 
-    final int idhReturn = await makeTransaction(functionName, params);
+    final int idhReturn =
+        await androidIntent.makeTransaction(functionName, params);
     return idhReturn;
   }
 
@@ -269,7 +251,8 @@ class PrinterMethodChannel extends PrinterPlatform {
     String functionName = 'InicializaImpressora';
     Map<String, dynamic> params = {};
 
-    final int idhReturn = await makeTransaction(functionName, params);
+    final int idhReturn =
+        await androidIntent.makeTransaction(functionName, params);
     return idhReturn;
   }
 
@@ -282,7 +265,8 @@ class PrinterMethodChannel extends PrinterPlatform {
       'tempoFim': tempoFim
     };
 
-    final int idhReturn = await makeTransaction(functionName, params);
+    final int idhReturn =
+        await androidIntent.makeTransaction(functionName, params);
     return idhReturn;
   }
 
@@ -291,7 +275,8 @@ class PrinterMethodChannel extends PrinterPlatform {
     String functionName = 'StatusImpressora';
     Map<String, dynamic> params = {'param': param};
 
-    final int idhReturn = await makeTransaction(functionName, params);
+    final int idhReturn =
+        await androidIntent.makeTransaction(functionName, params);
     return idhReturn;
   }
 }

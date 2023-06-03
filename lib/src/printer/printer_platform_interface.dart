@@ -15,15 +15,6 @@ abstract class PrinterPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  String generateParamsString(Map<String, dynamic> params) {
-    throw UnimplementedError('generateParamsString() has not been implemented');
-  }
-
-  Future<dynamic> makeTransaction(
-      String functionName, Map<String, dynamic> params) {
-    throw UnimplementedError('makeTransaction() has not been implemented');
-  }
-
   Future<int> abreConexaoImpressora(
       int tipo, String modelo, String conexao, int parametro) {
     throw UnimplementedError(
