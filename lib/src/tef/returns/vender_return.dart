@@ -1,3 +1,5 @@
+import 'package:plugin_flutter_elgin/src/utils/android_intent_elgin.dart';
+
 class VenderReturn {
   final String mensagem;
   final String? administradora;
@@ -55,6 +57,10 @@ class VenderReturn {
   }
 
   factory VenderReturn.fromJson(Map<String, dynamic> json) {
+    String? viaCliente = AndroidIntent.unescapeIdhReturn(json, 'viaCliente');
+    String? viaSms = AndroidIntent.unescapeIdhReturn(json, 'viaSMS');
+    String? viaE = AndroidIntent.unescapeIdhReturn(json, 'viaEstabelecimento');
+
     return VenderReturn(
         mensagem: json['mensagem'] as String,
         administradora: json['administradora'] as String?,
@@ -69,9 +75,9 @@ class VenderReturn {
         tipoCartao: json['tipoCartao'] as String?,
         valor: json['valor'] as String?,
         vencimento: json['vencimento'] as String?,
-        viaCliente: json['viaCliente'] as String?,
-        viaEstabelecimento: json['viaEstabelecimento'] as String?,
-        viaSMS: json['viaSMS'] as String?);
+        viaCliente: viaCliente,
+        viaEstabelecimento: viaE,
+        viaSMS: viaSms);
   }
 
   Map<String, dynamic> toJson() => {

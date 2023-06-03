@@ -1,0 +1,35 @@
+abstract class DefineParams {
+  static const String ti = 'ti';
+  static const String tf = 'tf';
+  static const String csc = 'csc';
+  static const String qtd = 'qtd';
+  static const String key = 'key';
+  static const String hri = 'hri';
+  static const String pino = 'pino';
+  static const String tipo = 'tipo';
+  static const String path = 'path';
+  static const String scala = 'scala';
+  static const String dados = 'dados';
+  static const String stilo = 'stilo';
+  static const String width = 'width';
+  static const String param = 'param';
+  static const String modelo = 'modelo';
+  static const String altura = 'altura';
+  static const String linhas = 'linhas';
+  static const String height = 'height';
+  static const String avanco = 'avanco';
+  static const String numRows = 'numRows';
+  static const String numCols = 'numCols';
+  static const String tamanho = 'tamanho';
+  static const String options = 'options';
+  static const String largura = 'largura';
+  static const String posicao = 'posicao';
+  static const String conexao = 'conexao';
+  static const String indexcsc = 'indexcsc';
+  static const String tempoFim = 'tempoFim';
+  static const String parametro = 'parametro';
+  static const String errCorLvl = 'errCorLvl';
+  static const String assQRCode = 'assQRCode';
+  static const String tempoInicio = 'tempoInicio';
+  static const String nivelCorrecao = 'nivelCorrecao';
+}
