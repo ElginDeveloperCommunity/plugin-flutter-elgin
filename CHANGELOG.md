@@ -1,3 +1,7 @@
+## 1.3.0
+
+- Added main SAT methods
+
 ## 1.2.0
 
 - Added Pix4 methods
