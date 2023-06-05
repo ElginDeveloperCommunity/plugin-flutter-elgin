@@ -1,3 +1,6 @@
+## 1.3.1
+
+- Fix: add exports of SAT and Pix4 classes
 ## 1.3.0
 
 - Added main SAT methods
